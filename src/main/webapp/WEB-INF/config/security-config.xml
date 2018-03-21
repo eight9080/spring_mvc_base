@@ -16,17 +16,20 @@
         <intercept-url pattern="/*" access="ROLE_USER"/>
     </http>
 
-    <!--<authentication-manager>
+    <authentication-manager>
         <authentication-provider>
+            <!--<password-encoder hash="md5"/>-->
+            <password-encoder hash="md5"/>
             <user-service>
-                <user name="admin" authorities="ROLE_USER" password="adminpass"/>
+                <user name="admin" authorities="ROLE_ADMIN,ROLE_USER" password="admin"/>
+                <user name="user" authorities="ROLE_USER" password="5ebe2294ecd0e0f08eab7690d2a6ee69"/>
             </user-service>
         </authentication-provider>
-    </authentication-manager>-->
-
-    <authentication-manager>
-        <authentication-provider user-service-ref="userDetailsService"/>
     </authentication-manager>
+
+    <!--<authentication-manager>
+        <authentication-provider user-service-ref="userDetailsService"/>
+    </authentication-manager>-->
 
     <beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <beans:property name="driverClassName" value="com.mysql.jdbc.Driver"/>
