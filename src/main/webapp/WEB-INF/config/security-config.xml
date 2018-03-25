@@ -8,22 +8,37 @@
        xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
-        http://www.springframework.org/schema/security
-		http://www.springframework.org/schema/security/spring-security.xsd">
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
 
-    <http auto-config="true">
-        <intercept-url pattern="/*" access="ROLE_USER"/>
+    <http auto-config="true" use-expressions="true">
+        <!--<intercept-url pattern="/login.html" access="IS_AUTHENTICATED_ANONYMOUSLY" />-->
+        <!--<intercept-url pattern="/loginFailed.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->
+        <!--<intercept-url pattern="/logout.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->
+        <!--<intercept-url pattern="/403.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->
+        <!--<intercept-url pattern="/*" access="ROLE_USER"/>-->
+        <intercept-url pattern="/login.html" access="permitAll" />
+        <intercept-url pattern="/loginFailed.html" access="permitAll"/>
+        <intercept-url pattern="/logout.html" access="permitAll"/>
+        <intercept-url pattern="/403.html" access="permitAll"/>
+        <intercept-url pattern="/*" access="hasRole('ROLE_USER')"/>
+        <!--<http-basic />-->
+        <form-login login-page="/login.html" authentication-failure-url="/loginFailed.html"/>
+        <logout logout-success-url="/logout.html"/>
+        <access-denied-handler error-page="/403.html" />
     </http>
 
     <authentication-manager>
         <authentication-provider>
             <!--<password-encoder hash="md5"/>-->
-            <password-encoder hash="md5"/>
+            <!--<password-encoder hash="md5"/>-->
             <user-service>
                 <user name="admin" authorities="ROLE_ADMIN,ROLE_USER" password="admin"/>
-                <user name="user" authorities="ROLE_USER" password="5ebe2294ecd0e0f08eab7690d2a6ee69"/>
+                <user name="user" authorities="ROLE_USER" password="user"/>
+                <user name="useri" authorities="ROLE_NOT" password="useri"/>
+
             </user-service>
+
         </authentication-provider>
     </authentication-manager>
 

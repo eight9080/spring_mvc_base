@@ -18,3 +18,17 @@ values('admin', 'secret', true);
 
 insert into authorities(username, authority)
 values('admin', 'ROLE_USER');
+
+
+create table permissions(
+          username varchar(50) not null,
+          target varchar(50) not null,
+          permission varchar(50) not null,
+          constraint fk_permissions_users
+          foreign key(username) references users(username)
+);
+
+create unique index ix_perm_username on permissions (username, target, permissions);
+
+insert into permissions(username, target, permission)
+values ("admin", "com.pluralsight.model.Goal", "createGoal");
