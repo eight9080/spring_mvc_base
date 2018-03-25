@@ -11,6 +11,9 @@
         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
 
+
+    <ldap-server ldif="classpath:users.ldif"/>
+
     <http auto-config="true" use-expressions="true">
         <!--<intercept-url pattern="/login.html" access="IS_AUTHENTICATED_ANONYMOUSLY" />-->
         <!--<intercept-url pattern="/loginFailed.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->
@@ -28,10 +31,10 @@
         <access-denied-handler error-page="/403.html" />
     </http>
 
-    <authentication-manager>
+   <!-- <authentication-manager>
         <authentication-provider>
-            <!--<password-encoder hash="md5"/>-->
-            <!--<password-encoder hash="md5"/>-->
+            &lt;!&ndash;<password-encoder hash="md5"/>&ndash;&gt;
+            &lt;!&ndash;<password-encoder hash="md5"/>&ndash;&gt;
             <user-service>
                 <user name="admin" authorities="ROLE_ADMIN,ROLE_USER" password="admin"/>
                 <user name="user" authorities="ROLE_USER" password="user"/>
@@ -40,6 +43,14 @@
             </user-service>
 
         </authentication-provider>
+    </authentication-manager>
+-->
+
+    <authentication-manager>
+        <ldap-authentication-provider group-search-filter="member={0}"
+                                      group-search-base="ou=groups"
+                                      user-search-base="ou=people"
+                                      user-search-filter="uid={0}" />
     </authentication-manager>
 
     <!--<authentication-manager>
